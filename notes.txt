@@ -1,0 +1,4 @@
+DevSecOps Thesis Practical Log Started
+Step 1 Completed — Docker Installed and Running
+Step 2 Completed — OWASP Juice Shop Container Running
+Target Application URL — http://localhost:3000

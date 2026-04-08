@@ -1,0 +1,4 @@
+trivy/
+*.db
+reports/
+node_modules/
