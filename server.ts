@@ -178,12 +178,35 @@ restoreOverwrittenFilesWithOriginals().then(() => {
   app.use(compression())
 
   /* Bludgeon solution for possible CORS problems: Allow everything! */
-  app.options('*', cors())
-  app.use(cors())
+  app.use(cors({
+ origin: false,
+ methods: ['GET','POST','PUT','DELETE'],
+ credentials: true
+}))
 
   /* Security middleware */
   app.use(helmet.noSniff())
   app.use(helmet.frameguard())
+  app.use(helmet.hsts())
+  app.use(
+ helmet.contentSecurityPolicy({
+  useDefaults: true,
+  directives: {
+   defaultSrc: ["'self'"],
+   scriptSrc: ["'self'"],
+   styleSrc: ["'self'"],
+   imgSrc: ["'self'", "data:", "blob:"],
+   fontSrc: ["'self'", "data:"],
+   connectSrc: ["'self'"],
+   workerSrc: ["'self'", "blob:"],
+   manifestSrc: ["'self'"],
+   objectSrc: ["'none'"],
+   frameAncestors: ["'none'"],
+   baseUri: ["'self'"],
+   formAction: ["'self'"]
+  }
+ })
+)
   // app.use(helmet.xssFilter()); // = no protection from persisted XSS via RESTful API
   app.disable('x-powered-by')
   app.use(featurePolicy({
